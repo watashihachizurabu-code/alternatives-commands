@@ -1,5 +1,5 @@
 _G.Whitelist = {
-  ["alternative130"] = 5,
+  ["alternative130"] = 6,
   ["iiqouli"] = 5,
   ["magicappelkz"] = 5,
   ["perimares2"] = 5,
