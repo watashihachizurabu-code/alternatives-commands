@@ -4,6 +4,8 @@ local Player = game.Players.LocalPlayer
 local Character = Player.Character
 --local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value or workspace.Live.alternative130 --workspace.Live.H3LLTARGET
 
+local GeneralChannel = game.TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral")
+
 function RefreshWhitelist()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/watashihachizurabu-code/alternatives-commands/refs/heads/main/whitelist.lua"))()
 	
@@ -1142,7 +1144,7 @@ game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(tab)
 			end
 			
 			if Commands[Command].Level > Whitelist[Character.Name] then
-				print("Insufficient Level")
+				GeneralChannel:SendAsync("/v Insufficient level ("..Character.Name..") Expected = "..Commands[Command].Level.." but Current = "..Whitelist[Character.Name])
 				return
 			end
 
