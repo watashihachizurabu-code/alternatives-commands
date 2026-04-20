@@ -723,7 +723,7 @@ local Commands = {
 
 
 	["togglepb"] = {
-		["Level"] = 1,
+		["Level"] = 2,
 		["Function"] = function(Executor, V1, Space1)
 			local Victim : Model = GetVictimFromString(V1, Space1)
 
