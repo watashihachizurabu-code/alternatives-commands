@@ -4,7 +4,7 @@ local Player = game.Players.LocalPlayer
 local Character = Player.Character
 --local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value or workspace.Live.alternative130 --workspace.Live.H3LLTARGET
 
-local GeneralChannel = game.TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral")
+local GeneralChannel : TextChannel = game.TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral")
 
 function RefreshWhitelist()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/watashihachizurabu-code/alternatives-commands/refs/heads/main/whitelist.lua"))()
@@ -120,11 +120,70 @@ local BP = nil
 local ChatCon = nil
 local ClickCon = nil
 
-local Commands = {
+Commands = {
+	
+	["commands"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local St = "/v "
+			
+			local tab = {}
+			
+			for i,v in pairs(Commands) do
+				tab[#tab + 1] = i.." " --.."("..v["Level"]..") "
+			end
+			
+			task.wait(2)
+			
+			local lasti = 0
+			
+			for i = 1, #tab,4 do
+				local St = St
+				for a = i,i+3 do
+					St = St..tab[a]
+				end
+
+				print(St)
+
+				task.spawn(function()
+					GeneralChannel:SendAsync(St)
+				end)
+
+				task.wait(3.7)
+
+				if tab[i + 1] == nil then
+					break
+				end
+			end
+		end,
+	},
 	
 	["refreshwhitelist"] = {
 		["Level"] = 5,
 		["Function"] = RefreshWhitelist
+	},
+	
+	['refreshall'] = {
+		["Level"] = 5,
+		["Function"] = function(Executor, V1, Space1)
+			if Executor.Name == "alternative130" then
+				print("refreshing")
+				ChatCon:Disconnect()
+				ClickCon:Disconnect()
+				loadstring(game:HttpGet("https://raw.githubusercontent.com/watashihachizurabu-code/alternatives-commands/refs/heads/main/Commands%20V4.lua"))()
+			end
+		end,
+	},
+	
+	['disconnectall'] = {
+		["Level"] = 5,
+		["Function"] = function(Executor, V1, Space1)
+			if Executor.Name == "alternative130" then
+				print("disconnectall")
+				ChatCon:Disconnect()
+				ClickCon:Disconnect()
+			end
+		end,
 	},
 	
 	['disconnect'] = {
@@ -134,7 +193,6 @@ local Commands = {
 				print("Disconnecting")
 				ChatCon:Disconnect()
 				ClickCon:Disconnect()
-				script:Destroy()
 			end
 		end,
 	},
@@ -1143,8 +1201,10 @@ ChatCon = game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(
 			Removed = true
 			V1 = V1:sub(4)
 		end
+		
+		--print(Whitelist[Character.Name])
 
-		if (V1:sub(1,1) == Prefix or string.match(string.lower(V1), "refreshwhitelist")) and Whitelist[Character.Name] ~= nil then
+		if (V1:sub(1,1) == Prefix or string.match(string.lower(V1), "refreshwhitelist") or string.match(string.lower(V1), "refreshall") or string.match(string.lower(V1), "disconnectall")) and Whitelist[Character.Name] ~= nil then
 			local Space1 = V1:find(" ")
 			local Length = string.len(V1)
 
@@ -1162,8 +1222,6 @@ ChatCon = game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(
 				return
 			end
 			
-			print(Commands[Command].Function)
-
 			Commands[Command].Function(Character, V1, Space1 or Length)
 
 			return	
