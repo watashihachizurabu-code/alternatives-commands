@@ -11,7 +11,8 @@ local Whitelist = {
 	"inkanzia",
 	"charchacharcharch",
 	"azaz090233",
-	"Allenlovescars"
+	"Allenlovescars",
+	"alternative130"
 }
 
 table.insert(Whitelist, Player.Name)
