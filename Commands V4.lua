@@ -117,13 +117,27 @@ local Track1 = nil
 local Track2 = nil
 
 local BP = nil
+local ChatCon = nil
+local ClickCon = nil
 
 local Commands = {
 	
 	["refreshwhitelist"] = {
 		["Level"] = 5,
-		["Function"] = RefreshWhitelist()
+		["Function"] = RefreshWhitelist
 	},
+	
+	['disconnect'] = {
+		["Level"] = 5,
+		["Function"] = function(Executor, V1, Space1)
+			if Executor.Name == Player.Name then
+				print("Disconnecting")
+				ChatCon:Disconnect()
+				ClickCon:Disconnect()
+				script:Destroy()
+			end
+		end,
+	}
 	
 	["crash"] = {
 		["Level"] = 5,
@@ -1111,7 +1125,7 @@ local Commands = {
 
 print("Commands Started")
 
-game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(tab)
+ChatCon = game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(tab)
 	local Function = tab[1]
 
 	Character = Player.Character
@@ -1147,6 +1161,8 @@ game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(tab)
 				GeneralChannel:SendAsync("/v Insufficient level ("..Character.Name..") Expected = "..Commands[Command].Level.." but Current = "..Whitelist[Character.Name])
 				return
 			end
+			
+			print(Commands[Command].Function)
 
 			Commands[Command].Function(Character, V1, Space1 or Length)
 
@@ -1160,7 +1176,7 @@ local UIS = game:GetService("UserInputService")
 
 local AutoPB = false
 
-UIS.InputBegan:Connect(function(Input, GameP)
+ClickCon = UIS.InputBegan:Connect(function(Input, GameP)
 	if GameP then
 		return
 	end
