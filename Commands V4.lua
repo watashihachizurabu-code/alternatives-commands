@@ -6,16 +6,17 @@ local Character = Player.Character
 
 local Prefix = "`"
 
-local Whitelist = {
-	"iiqouli",
-	"inkanzia",
-	"charchacharcharch",
-	"azaz090233",
-	"Allenlovescars",
-	"alternative130"
-}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/watashihachizurabu-code/alternatives-commands/refs/heads/main/whitelist.lua"))()
 
-table.insert(Whitelist, Player.Name)
+local Whitelist = _G.Whitelist
+
+print(Whitelist)
+
+local Prefixes = {
+	["alternative130"] = "`",
+	["inkanzia"] = "-",
+	["iiqouli"] = "-"
+}
 
 local I = 0
 local Inc = 5
@@ -41,20 +42,18 @@ end
 
 function GetVictimFromString(V1)
 	local Victim = nil
-	
+
 	local VictimName = SplitCommand(V1)[2]
-	
-	print(VictimName)
-	
+
 	if VictimName == nil then
 		print("no name found")
-		return
-	end
-
-	for i,v in pairs(workspace.Live:GetChildren()) do
-		if v:IsA("Model") and string.match(string.lower(v.Name), VictimName) ~= nil then
-			Victim = v
-			break
+	else
+		print(VictimName)
+		for i,v in pairs(workspace.Live:GetChildren()) do
+			if v:IsA("Model") and string.match(string.lower(v.Name), VictimName) ~= nil then
+				Victim = v
+				break
+			end
 		end
 	end
 
@@ -112,391 +111,185 @@ local Track2 = nil
 local BP = nil
 
 local Commands = {
-	["crash"] = function(Executor, V1, Space1)
-		local Victim = GetVictimFromString(V1, Space1)
+	["crash"] = {
+		["Level"] = 5,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim = GetVictimFromString(V1, Space1)
 
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		if Victim == Player.Character and V1:sub(Space1 + 1) == "all" then
-			print("all")
-			return
-		end
-
-		local Typ = Character:FindFirstChild("Type")
-
-		if Typ == nil then
-			print("no type???")
-			return
-		end
-
-		print(Typ, Typ.Value)
-
-		if Typ.Value == "Betty" then
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Spawn",
-
-			}
-
-			local Proj = nil
-
-			task.spawn(function()
-				print("FiredSlash", _G.Pass)
-				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-			end)
-
-			local Start = tick()
-
-			repeat
-				Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
-				task.wait()
-			until Proj ~= nil or tick() - Start > 3
-
-			if Proj ~= nil then
-				print("fired betty")
-				for i = 1,2 do
-					task.spawn(function()
-						for i = 1,3000 do
-							--task.spawn(function()
-
-							--	local tab = {
-							--		[1] = _G.Pass,
-							--		[2] = "Move1",
-							--		[3] = "Hit",
-							--		[4] = {
-							--			Hitted = Victim.Data.Blocking	
-							--		},
-							--		[5] = Victim.PrimaryPart.CFrame
-							--	}
-
-							--	game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-							--end)
-
-							task.spawn(function()
-								local tab = {
-									[1] = _G.Pass,
-									[2] = "Move1",
-									[3] = "Hit",
-									[4] = Proj,
-									[5] = Victim.PrimaryPart.CFrame
-								}
-
-								game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-							end)
-
-							--	task.spawn(function()
-							--		local tab = {
-							--			[1] = _G.Pass,
-							--			[2] = "Move1",
-							--			[3] = "Hit",
-							--			[4] = {
-							--				Hitted = Victim.Data.Stamina	
-							--			},
-							--			[5] = Victim.PrimaryPart.CFrame
-							--		}
-
-							--		game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-							--	end)
-						end
-					end)
-					task.wait()	
-				end
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
 			end
-			return
-		end
 
-		if Typ.Value == "DeltaSans" then
-			print("Fired delta")
+			if Victim == Player.Character and V1:sub(Space1 + 1) == "all" then
+				print("all")
+				return
+			end
 
-			for i = 1,1000 do
+			local Typ = Character:FindFirstChild("Type")
+
+			if Typ == nil then
+				print("no type???")
+				return
+			end
+
+			print(Typ, Typ.Value)
+
+			if Typ.Value == "Betty" then
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Spawn",
+
+				}
+
+				local Proj = nil
+
 				task.spawn(function()
-					local tab = {
-						[1] = _G.Pass,
-						[2] = "Bones1",
-						[3] = "AirDodge",
-						[4] = Victim.Torso
-					}
-
-
-
-					game.ReplicatedStorage.Remotes.DeltaSansMoves:InvokeServer(tab)
+					print("FiredSlash", _G.Pass)
+					game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
 				end)
-				task.wait(.08)
-			end
-			return
-		end
 
-	end,
+				local Start = tick()
 
-	["void"] = function(Executor, V1, Space1)
-		local Victim = GetVictimFromString(V1, Space1)
+				repeat
+					Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
+					task.wait()
+				until Proj ~= nil or tick() - Start > 3
 
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
+				if Proj ~= nil then
+					print("fired betty")
+					for i = 1,2 do
+						task.spawn(function()
+							for i = 1,3000 do
+								--task.spawn(function()
 
-		if Victim == Player.Character and V1:sub(Space1 + 1) == "all" then
-			print("all")
-			return
-		end
+								--	local tab = {
+								--		[1] = _G.Pass,
+								--		[2] = "Move1",
+								--		[3] = "Hit",
+								--		[4] = {
+								--			Hitted = Victim.Data.Blocking	
+								--		},
+								--		[5] = Victim.PrimaryPart.CFrame
+								--	}
 
-		local Typ = Character:FindFirstChild("Type")
+								--	game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+								--end)
 
-		if Typ == nil then
-			return
-		end
-		
-		if Victim == Player.Character then
-			return 
-		end
-		
-		if Typ.Value == "Betty" then
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Spawn",
+								task.spawn(function()
+									local tab = {
+										[1] = _G.Pass,
+										[2] = "Move1",
+										[3] = "Hit",
+										[4] = Proj,
+										[5] = Victim.PrimaryPart.CFrame
+									}
 
-			}
+									game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+								end)
 
-			local Proj = nil
+								--	task.spawn(function()
+								--		local tab = {
+								--			[1] = _G.Pass,
+								--			[2] = "Move1",
+								--			[3] = "Hit",
+								--			[4] = {
+								--				Hitted = Victim.Data.Stamina	
+								--			},
+								--			[5] = Victim.PrimaryPart.CFrame
+								--		}
 
-			task.spawn(function()
-				print("FiredSlash", _G.Pass)
-				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-			end)
-
-			local Start = tick()
-
-			repeat
-				Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
-				task.wait()
-			until Proj ~= nil or tick() - Start > 3
-
-			if Proj ~= nil then
-				for i = 1,1000 do
-					task.spawn(function()
-
-						if Victim:IsDescendantOf(workspace) == false then
-							return
-						end
-
-						local tab = {
-							[1] = _G.Pass,
-							[2] = "Move1",
-							[3] = "Hit",
-							[4] = {
-								Hitted = Victim.Data.Stamina	
-							},
-							[5] = Victim.PrimaryPart.CFrame
-						}
-
-						--print("FiredDamage", _G.Pass)
-						game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-						local tab = {
-							[1] = _G.Pass,
-							[2] = "Move1",
-							[3] = "Hit",
-							[4] = {
-								Hitted = Victim.Data.Blocking
-							},
-							[5] = Victim.PrimaryPart.CFrame
-						}
-
-						--print("FiredDamage", _G.Pass)
-						game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-						--local tab = {
-						--	[1] = _G.Pass,
-						--	[2] = "Move1",
-						--	[3] = "Hit",
-						--	[4] = Proj,
-						--	[5] = Victim.PrimaryPart.CFrame
-						--}
-
-						----print("FiredDamage", _G.Pass)
-						--game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-					end)
-				end
-			end
-			return
-		end
-
-		if Typ.Value == "DeltaSans" then
-			print("Fired delta")
-
-			for i = 1,1000 do
-				task.spawn(function()
-					local tab = {
-						[1] = _G.Pass,
-						[2] = "Bones1",
-						[3] = "AirDodge",
-						[4] = Victim.Torso
-					}
-
-
-
-					game.ReplicatedStorage.Remotes.DeltaSansMoves:InvokeServer(tab)
-				end)
-				task.wait(.015)
-			end
-			return
-		end
-	end,
-
-	["kill"] = function(Executor, V1, Space1)
-		local Victim = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		if Victim == Player.Character and V1:sub(Space1 + 1) == "all" then
-			print("all")
-			return
-		end
-
-		local Typ = Character:FindFirstChild("Type")
-
-		if Typ == nil then
-			return
-		end
-
-		if Typ.Value == "Betty" then
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Spawn",
-
-			}
-
-			local Proj = nil
-
-			task.spawn(function()
-				print("FiredSlash", _G.Pass)
-				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-			end)
-
-			local Start = tick()
-
-			repeat
-				Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
-				task.wait()
-			until Proj ~= nil or tick() - Start > 3
-
-			if Proj ~= nil then
-				for i = 1,1000 do
-					
-					if Victim:IsDescendantOf(workspace) == false or Victim.Humanoid.Health <= 0 then
-						return
+								--		game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+								--	end)
+							end
+						end)
+						task.wait()	
 					end
-					
-					task.spawn(function()
-						
-						if Victim:IsDescendantOf(workspace) == false or Victim.Humanoid.Health <= 0 then
-							return
-						end
-
-						local tab = {
-							[1] = _G.Pass,
-							[2] = "Move1",
-							[3] = "Hit",
-							[4] = {
-								Hitted = Victim.Data.Stamina	
-							},
-							[5] = Victim.PrimaryPart.CFrame
-						}
-
-						--print("FiredDamage", _G.Pass)
-						game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-						local tab = {
-							[1] = _G.Pass,
-							[2] = "Move1",
-							[3] = "Hit",
-							[4] = Proj,
-							[5] = Victim.PrimaryPart.CFrame
-						}
-
-						--print("FiredDamage", _G.Pass)
-						game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-					end)
-					task.wait(.1)
 				end
+				return
 			end
-			return
-		end
 
-	end,
+			if Typ.Value == "DeltaSans" then
+				print("Fired delta")
 
-	["poison"] = function(Executor, V1, Space1)
-		local Victim, NameEnd = GetVictimFromString(V1, Space1)
+				for i = 1,1000 do
+					task.spawn(function()
+						local tab = {
+							[1] = _G.Pass,
+							[2] = "Bones1",
+							[3] = "AirDodge",
+							[4] = Victim.Torso
+						}
 
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
 
-		if Victim == Player.Character and V1:sub(Space1 + 1) == "all" then
-			print("all")
-			return
-		end
 
-		local Typ = Character:FindFirstChild("Type")
-
-		if Typ == nil then
-			return
-		end
-		
-		local Start, End = string.find(V1, Victim.Name)
-		
-		local Amount = 1
-		local UseHitbox = false
-
-		for i,v in pairs(SplitCommand(V1)) do
-			print(v)
-			if tonumber(v) ~= nil then
-				Amount = tonumber(v)
+						game.ReplicatedStorage.Remotes.DeltaSansMoves:InvokeServer(tab)
+					end)
+					task.wait(.08)
+				end
+				return
 			end
-			
-			if string.lower(v) == "true" then
-				UseHitbox = true
-			end
-		end
-		
-		if Typ.Value == "Betty" then
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Spawn",
 
-			}
-			
-			for i = 1,Amount do
-				print(i)
+		end
+	},
+
+	["void"] = {
+		["Level"] = 5,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			if Victim == Player.Character and V1:sub(Space1 + 1) == "all" then
+				print("all")
+				return
+			end
+
+			local Typ = Character:FindFirstChild("Type")
+
+			if Typ == nil then
+				return
+			end
+
+			if Victim == Player.Character then
+				return 
+			end
+
+			if Typ.Value == "Betty" then
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Spawn",
+
+				}
+
+				local Proj = nil
+
 				task.spawn(function()
+					print("FiredSlash", _G.Pass)
+					game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+				end)
+
+				local Start = tick()
+
+				repeat
+					Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
+					task.wait()
+				until Proj ~= nil or tick() - Start > 3
+
+				if Proj ~= nil then
 					for i = 1,1000 do
-						if Character == nil or Character:IsDescendantOf(workspace) == false or Victim:IsDescendantOf(workspace) == false or Victim == nil or Victim.Humanoid.Health <= 0 then
-							break
-						end
-						
 						task.spawn(function()
 
-							if Character == nil or Character:IsDescendantOf(workspace) == false or Victim:IsDescendantOf(workspace) == false or Victim == nil or Victim.Humanoid.Health <= 0 then
+							if Victim:IsDescendantOf(workspace) == false then
 								return
 							end
 
@@ -505,520 +298,802 @@ local Commands = {
 								[2] = "Move1",
 								[3] = "Hit",
 								[4] = {
-									Hitted = Victim.Data.Poison	
+									Hitted = Victim.Data.Stamina	
 								},
-								[5] = if UseHitbox then Victim.PrimaryPart.CFrame else CFrame.new(0,10000000000,0)
+								[5] = Victim.PrimaryPart.CFrame
 							}
 
 							--print("FiredDamage", _G.Pass)
 							game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
 
+							local tab = {
+								[1] = _G.Pass,
+								[2] = "Move1",
+								[3] = "Hit",
+								[4] = {
+									Hitted = Victim.Data.Blocking
+								},
+								[5] = Victim.PrimaryPart.CFrame
+							}
+
+							--print("FiredDamage", _G.Pass)
+							game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+							--local tab = {
+							--	[1] = _G.Pass,
+							--	[2] = "Move1",
+							--	[3] = "Hit",
+							--	[4] = Proj,
+							--	[5] = Victim.PrimaryPart.CFrame
+							--}
+
+							----print("FiredDamage", _G.Pass)
+							--game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+						end)
+					end
+				end
+				return
+			end
+
+			if Typ.Value == "DeltaSans" then
+				print("Fired delta")
+
+				for i = 1,1000 do
+					task.spawn(function()
+						local tab = {
+							[1] = _G.Pass,
+							[2] = "Bones1",
+							[3] = "AirDodge",
+							[4] = Victim.Torso
+						}
+
+
+
+						game.ReplicatedStorage.Remotes.DeltaSansMoves:InvokeServer(tab)
+					end)
+					task.wait(.015)
+				end
+				return
+			end
+		end
+	},
+
+	["kill"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			if Victim == Player.Character and V1:sub(Space1 + 1) == "all" then
+				print("all")
+				return
+			end
+
+			local Typ = Character:FindFirstChild("Type")
+
+			if Typ == nil then
+				return
+			end
+
+			if Typ.Value == "Betty" then
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Spawn",
+
+				}
+
+				local Proj = nil
+
+				task.spawn(function()
+					print("FiredSlash", _G.Pass)
+					game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+				end)
+
+				local Start = tick()
+
+				repeat
+					Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
+					task.wait()
+				until Proj ~= nil or tick() - Start > 3
+
+				if Proj ~= nil then
+					for i = 1,1000 do
+
+						if Victim:IsDescendantOf(workspace) == false or Victim.Humanoid.Health <= 0 then
+							return
+						end
+
+						task.spawn(function()
+
+							if Victim:IsDescendantOf(workspace) == false or Victim.Humanoid.Health <= 0 then
+								return
+							end
+
+							local tab = {
+								[1] = _G.Pass,
+								[2] = "Move1",
+								[3] = "Hit",
+								[4] = {
+									Hitted = Victim.Data.Stamina	
+								},
+								[5] = Victim.PrimaryPart.CFrame
+							}
+
+							--print("FiredDamage", _G.Pass)
+							game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+							local tab = {
+								[1] = _G.Pass,
+								[2] = "Move1",
+								[3] = "Hit",
+								[4] = Proj,
+								[5] = Victim.PrimaryPart.CFrame
+							}
+
+							--print("FiredDamage", _G.Pass)
+							game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
 						end)
 						task.wait(.1)
 					end
-				end)
-			end
-			return
-		end
-
-	end,
-
-	["sit"] = function(Executor, V1, Space1)
-		local Victim = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		if Executor ~= Player.Character then
-			return
-		end
-
-		Sitting = not Sitting
-
-		if Track2 ~= nil then
-			Track2:Stop()
-		end
-
-		if Sitting == true then
-			Track2 = Character:WaitForChild("Humanoid"):LoadAnimation(Anim2)
-			Track2:Play()
-
-			Riding = false
-			Orbits = {}
-
-			while true do
-				task.wait()
-
-				--local Victim : Model = Player.Backpack.Main.LockOnScript.LockOn.Value
-				local Character : Model = Executor
-
-				if Character == nil or Victim == nil or Riding ~= true then
-					Orbits[Executor.Name] = false
-					break
 				end
-
-				Character.PrimaryPart.CFrame = Victim.Head.CFrame * CFrame.new(0,2,.1)
-
-				I += Inc
-			end
-		end
-	end,
-
-	["ride"] = function(Executor, V1, Space1)
-		local Victim = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		if Executor ~= Player.Character then
-			return
-		end
-
-		Riding = not Riding
-
-		if Track1 ~= nil then
-			Track1:Stop()
-		end
-
-		if Riding == true then
-
-			Orbits = {}
-			Sitting = false
-
-			Track1 = Character:WaitForChild("Humanoid"):LoadAnimation(Anim)
-			Track1:Play()
-
-			local BP = RecreateBP()
-
-			if BP == nil then
 				return
 			end
 
-			while true do
-				task.wait()
+		end
+	},
 
-				--local Victim : Model = Player.Backpack.Main.LockOnScript.LockOn.Value
-				local Character : Model = Executor
+	["poison"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim, NameEnd = GetVictimFromString(V1, Space1)
 
-				if Character == nil or Victim == nil or Riding ~= true or BP.Parent ~= Character.PrimaryPart then
-					Orbits[Executor.Name] = false
-					break
-				end
-
-				local CF = Victim.PrimaryPart.CFrame * CFrame.Angles(0,math.rad(I),0)
-
-				local GoalPos = CF.Position + CF.LookVector * Off
-
-				local CF = ((CFrame.new(Victim.Torso.Position + Vector3.new(0,2.5,0)) * Victim.PrimaryPart.CFrame.Rotation) * CFrame.new(0,1.5,5))
-
-				--Character:PivotTo(CFrame.lookAt(GoalPos, CF.Position))
-				BP.Position = BP.Position:Lerp(CF.Position, LerpSpeed)
-
-				I += Inc
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
 			end
-		else
-			for i,v in pairs(Character.PrimaryPart:GetChildren()) do
-				if v:IsA("BodyMover") then
-					v:Destroy()
-				end
-			end
-		end
-	end,
 
-	["orbit"] = function(Executor, V1, Space1)
-		local Victim = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		if Executor ~= Player.Character then
-			return
-		end
-
-		Orbits[Executor.Name] = if Orbits[Executor.Name] ~= nil then not Orbits[Executor.Name] else true
-
-		if Orbits[Executor.Name] == true then
-
-			Sitting = false
-			Riding = false
-
-			local BP = RecreateBP()
-
-			if BP == nil then
+			if Victim == Player.Character and V1:sub(Space1 + 1) == "all" then
+				print("all")
 				return
 			end
 
+			local Typ = Character:FindFirstChild("Type")
+
+			if Typ == nil then
+				return
+			end
+
+			local Start, End = string.find(V1, Victim.Name)
+
+			local Amount = 1
+			local UseHitbox = false
+
+			for i,v in pairs(SplitCommand(V1)) do
+				print(v)
+				if tonumber(v) ~= nil then
+					Amount = tonumber(v)
+				end
+
+				if string.lower(v) == "true" then
+					UseHitbox = true
+				end
+			end
+
+			if Typ.Value == "Betty" then
+				for i = 1,Amount do
+					if Character == nil or Character:IsDescendantOf(workspace) == false or Victim:IsDescendantOf(workspace) == false or Victim == nil or Victim.Humanoid.Health <= 0 then
+						break
+					end
+
+					task.spawn(function()
+
+						if Character == nil or Character:IsDescendantOf(workspace) == false or Victim:IsDescendantOf(workspace) == false or Victim == nil or Victim.Humanoid.Health <= 0 then
+							return
+						end
+
+						local tab = {
+							[1] = _G.Pass,
+							[2] = "Move1",
+							[3] = "Hit",
+							[4] = {
+								Hitted = Victim.Data.Poison	
+							},
+							[5] = if UseHitbox then Victim.PrimaryPart.CFrame else CFrame.new(0,10000000000,0)
+						}
+
+						--print("FiredDamage", _G.Pass)
+						game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+					end)
+					task.wait(.1)
+				end
+				return
+			end
+
+		end
+	},
+
+	["sit"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			if Executor ~= Player.Character then
+				return
+			end
+
+			Sitting = not Sitting
+
+			if Track2 ~= nil then
+				Track2:Stop()
+			end
+
+			if Sitting == true then
+				Track2 = Character:WaitForChild("Humanoid"):LoadAnimation(Anim2)
+				Track2:Play()
+
+				Riding = false
+				Orbits = {}
+
+				while true do
+					task.wait()
+
+					--local Victim : Model = Player.Backpack.Main.LockOnScript.LockOn.Value
+					local Character : Model = Executor
+
+					if Character == nil or Victim == nil or Riding ~= true then
+						Orbits[Executor.Name] = false
+						break
+					end
+
+					Character.PrimaryPart.CFrame = Victim.Head.CFrame * CFrame.new(0,2,.1)
+
+					I += Inc
+				end
+			end
+		end
+	},
+
+	["ride"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			if Executor ~= Player.Character then
+				return
+			end
+
+			Riding = not Riding
+
+			if Track1 ~= nil then
+				Track1:Stop()
+			end
+
+			if Riding == true then
+
+				Orbits = {}
+				Sitting = false
+
+				Track1 = Character:WaitForChild("Humanoid"):LoadAnimation(Anim)
+				Track1:Play()
+
+				local BP = RecreateBP()
+
+				if BP == nil then
+					return
+				end
+
+				while true do
+					task.wait()
+
+					--local Victim : Model = Player.Backpack.Main.LockOnScript.LockOn.Value
+					local Character : Model = Executor
+
+					if Character == nil or Victim == nil or Riding ~= true or BP.Parent ~= Character.PrimaryPart then
+						Orbits[Executor.Name] = false
+						break
+					end
+
+					local CF = Victim.PrimaryPart.CFrame * CFrame.Angles(0,math.rad(I),0)
+
+					local GoalPos = CF.Position + CF.LookVector * Off
+
+					local CF = ((CFrame.new(Victim.Torso.Position + Vector3.new(0,2.5,0)) * Victim.PrimaryPart.CFrame.Rotation) * CFrame.new(0,1.5,5))
+
+					--Character:PivotTo(CFrame.lookAt(GoalPos, CF.Position))
+					BP.Position = BP.Position:Lerp(CF.Position, LerpSpeed)
+
+					I += Inc
+				end
+			else
+				for i,v in pairs(Character.PrimaryPart:GetChildren()) do
+					if v:IsA("BodyMover") then
+						v:Destroy()
+					end
+				end
+			end
+		end,
+
+	},
+	["orbit"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			if Executor ~= Player.Character then
+				return
+			end
+
+			Orbits[Executor.Name] = if Orbits[Executor.Name] ~= nil then not Orbits[Executor.Name] else true
+
+			if Orbits[Executor.Name] == true then
+
+				Sitting = false
+				Riding = false
+
+				local BP = RecreateBP()
+
+				if BP == nil then
+					return
+				end
+
+				while true do
+					task.wait()
+
+					--local Victim : Model = Player.Backpack.Main.LockOnScript.LockOn.Value
+					local Character : Model = Executor
+
+					if Character == nil or Victim == nil or Orbits[Executor.Name] ~= true or BP.Parent ~= Character.PrimaryPart then
+						Orbits[Executor.Name] = false
+						break
+					end
+
+					local CF = Victim.PrimaryPart.CFrame * CFrame.Angles(0,math.rad(I),0)
+
+					local GoalPos = CF.Position + CF.LookVector * Off
+
+					if UseRays then
+						local Ray = workspace:Raycast(GoalPos + Vector3.new(0,15,0), Vector3.new(0,-100,0), rayparams)
+
+						if Ray ~= nil then
+							GoalPos = Ray.Position + Vector3.new(0,4,0)
+						end
+					end
+
+					--Character:PivotTo(CFrame.lookAt(GoalPos, CF.Position))
+
+					BP.Position = BP.Position:Lerp(CFrame.lookAt(GoalPos, CF.Position).Position, LerpSpeed)
+
+					I += Inc
+				end
+			else
+				for i,v in pairs(Character.PrimaryPart:GetChildren()) do
+					if v:IsA("BodyMover") then
+						v:Destroy()
+					end
+				end
+			end
+		end
+	},
+
+
+
+	["togglepb"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim : Model = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			if Victim:HasTag("AutoPB") then
+				print("Removed tag")
+				Victim:RemoveTag("AutoPB")
+				return
+			else
+				print("Added tag")
+				Victim:AddTag("AutoPB")
+			end
+
 			while true do
-				task.wait()
 
-				--local Victim : Model = Player.Backpack.Main.LockOnScript.LockOn.Value
-				local Character : Model = Executor
-
-				if Character == nil or Victim == nil or Orbits[Executor.Name] ~= true or BP.Parent ~= Character.PrimaryPart then
-					Orbits[Executor.Name] = false
+				if Victim:IsDescendantOf(workspace.Live) == false then
+					print("not part of workspace")
 					break
 				end
 
-				local CF = Victim.PrimaryPart.CFrame * CFrame.Angles(0,math.rad(I),0)
+				if Victim:HasTag("AutoPB") == false then
+					print("autopb not enabled for this person")
+					break
+				end
 
-				local GoalPos = CF.Position + CF.LookVector * Off
+				print("Setting "..Victim.Name)
 
-				if UseRays then
-					local Ray = workspace:Raycast(GoalPos + Vector3.new(0,15,0), Vector3.new(0,-100,0), rayparams)
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = Victim.Data.PerfectBlocking
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
 
-					if Ray ~= nil then
-						GoalPos = Ray.Position + Vector3.new(0,4,0)
+				}
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = Victim.Data.Blocking
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
+
+				}
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+				task.wait(.05)
+			end
+		end
+	},
+
+	["Attack0"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim : Model = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			while Victim:IsDescendantOf(workspace.Live) do
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = Victim.Data.Attack
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
+
+				}
+
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+			end
+		end
+	},
+
+	["Defense0"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim : Model = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			while Victim:IsDescendantOf(workspace.Live) do
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = Victim.Data.Defense
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
+
+				}
+
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+			end
+		end
+	},
+
+	["loophate"] = {
+		["Level"] = 3,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim : Model = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			if Victim:FindFirstChild("Hate") == nil then
+				return
+			end
+
+			while Victim:IsDescendantOf(workspace.Live) do
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = Victim.Hate
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
+
+				}
+
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+			end
+		end
+	},
+
+	["break"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim : Model = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			local ttorso = Victim:FindFirstChild("Torso")
+			local tdata = Victim:FindFirstChild("Data")
+
+			if ttorso == nil or tdata == nil then
+				print("no data?????")
+				return
+			end
+
+			local Typ = Character:FindFirstChild("Type")
+
+			if Typ == nil then
+				print("no type???")
+				return
+			end
+
+			local Amount = 1
+			local UseHitbox = false
+
+			for i,v in pairs(SplitCommand(V1)) do
+				print(v)
+				if tonumber(v) ~= nil then
+					Amount = tonumber(v)
+				end
+
+				if string.lower(v) == "true" then
+					UseHitbox = true
+				end
+			end
+
+			if Typ.Value == "Betty" then
+
+				for i = 1,Amount do
+					if Amount > 1 then
+						task.spawn(function()
+							local tab = {
+								[1] = _G.Pass,
+								[2] = "Move1",
+								[3] = "Hit",
+								[4] = {
+									Hitted = tdata.Stamina
+								},
+								[5] = CFrame.new(0, tonumber("inf"), 0)
+
+							}
+
+							game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+							local tab = {
+								[1] = _G.Pass,
+								[2] = "Move1",
+								[3] = "Hit",
+								[4] = {
+									Hitted = tdata.Blocking
+								},
+								[5] = Victim.PrimaryPart.CFrame
+
+							}
+
+							game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+						end)
+					else
+						local tab = {
+							[1] = _G.Pass,
+							[2] = "Move1",
+							[3] = "Hit",
+							[4] = {
+								Hitted = tdata.Stamina
+							},
+							[5] = CFrame.new(0, tonumber("inf"), 0)
+
+						}
+
+						game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
 					end
 				end
 
-				--Character:PivotTo(CFrame.lookAt(GoalPos, CF.Position))
-
-				BP.Position = BP.Position:Lerp(CFrame.lookAt(GoalPos, CF.Position).Position, LerpSpeed)
-
-				I += Inc
-			end
-		else
-			for i,v in pairs(Character.PrimaryPart:GetChildren()) do
-				if v:IsA("BodyMover") then
-					v:Destroy()
-				end
-			end
-		end
-	end,
-
-
-
-	["togglepb"] = function(Executor, V1, Space1)
-		local Victim : Model = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		if Victim:HasTag("AutoPB") then
-			print("Removed tag")
-			Victim:RemoveTag("AutoPB")
-			return
-		else
-			print("Added tag")
-			Victim:AddTag("AutoPB")
-		end
-
-		while true do
-
-			if Victim:IsDescendantOf(workspace.Live) == false then
-				print("not part of workspace")
-				break
+				return
 			end
 
-			if Victim:HasTag("AutoPB") == false then
-				print("autopb not enabled for this person")
-				break
-			end
-
-			print("Setting "..Victim.Name)
-
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = Victim.Data.PerfectBlocking
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = Victim.Data.Blocking
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-			task.wait(.05)
-		end
-	end,
-
-	["Attack0"] = function(Executor, V1, Space1)
-		local Victim : Model = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		while Victim:IsDescendantOf(workspace.Live) do
-
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = Victim.Data.Attack
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-		end
-	end,
-	
-	["Defense0"] = function(Executor, V1, Space1)
-		local Victim : Model = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		while Victim:IsDescendantOf(workspace.Live) do
-
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = Victim.Data.Defense
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-		end
-	end,
-	
-	["loophate"] = function(Executor, V1, Space1)
-		local Victim : Model = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		if Victim:FindFirstChild("Hate") == nil then
-			return
-		end
-
-		while Victim:IsDescendantOf(workspace.Live) do
-
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = Victim.Hate
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-		end
-	end,
-
-	["break"] = function(Executor, V1, Space1)
-		local Victim = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		local ttorso = Victim:FindFirstChild("Torso")
-		local tdata = Victim:FindFirstChild("Data")
-
-		if ttorso == nil or tdata == nil then
-			print("no data?????")
-			return
-		end
-
-		local Typ = Character:FindFirstChild("Type")
-
-		if Typ == nil then
-			print("no type???")
-			return
-		end
-
-		if Typ.Value == "Betty" then
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = tdata.Stamina
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-			return
-		end
-
-		if Typ.Value == "DeltaSans" then
-			for i = 1,1000 do
-
-				if Victim.Data.Stamina.Value <= 0 then
-					break
-				end
-
-				task.spawn(function()
+			if Typ.Value == "DeltaSans" then
+				for i = 1,Amount do
 
 					if Victim.Data.Stamina.Value <= 0 then
-						return
+						break
 					end
 
-					local tab = {
-						[1] = _G.Pass,
-						[2] = "Bones1",
-						[3] = "AirDodge",
-						[4] = Victim.Torso
-					}
+					task.spawn(function()
+
+						if Victim.Data.Stamina.Value <= 0 then
+							return
+						end
+
+						local tab = {
+							[1] = _G.Pass,
+							[2] = "Bones1",
+							[3] = "AirDodge",
+							[4] = Victim.Torso
+						}
 
 
 
-					game.ReplicatedStorage.Remotes.DeltaSansMoves:InvokeServer(tab)
-				end)
-				task.wait(.08)
+						game.ReplicatedStorage.Remotes.DeltaSansMoves:InvokeServer(tab)
+					end)
+					task.wait(.08)
+				end
+				return
 			end
-			return
+
+			if Typ.Value == "Chara" then
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "KnifeProjectile",
+					[3] = "Spawn",
+					[4] = {
+						Hitted = tdata.Stamina
+					},
+				}
+				print("Fired")
+				game.ReplicatedStorage.Remotes.GTChara.CharaMoves:InvokeServer(tab)
+				return
+			end
 		end
+	},
 
-		if Typ.Value == "Chara" then
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "KnifeProjectile",
-				[3] = "Spawn",
-				[4] = {
-					Hitted = tdata.Stamina
-				},
-			}
-			print("Fired")
-			game.ReplicatedStorage.Remotes.GTChara.CharaMoves:InvokeServer(tab)
-			return
+	["inflvl"] = {
+		["Level"] = 3,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim : Model = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			local ttorso = Victim:FindFirstChild("Torso")
+			local tdata = Victim:FindFirstChild("Data")
+
+			if ttorso == nil or tdata == nil then
+				return
+			end
+
+			while Victim:IsDescendantOf(workspace.Live) do
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = tdata.Lv
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
+
+				}
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = tdata.MaxExp
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
+
+				}
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+				task.wait(.05)
+			end
 		end
-	end,
+	},
 
-	["inflvl"] = function(Executor, V1, Space1)
-		local Victim : Model = GetVictimFromString(V1, Space1)
+	["nosoulcap"] = {
+		["Level"] = 3,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim = GetVictimFromString(V1, Space1)
 
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			while Victim:IsDescendantOf(workspace.Live) do
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = Victim.SoulsTaken
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
+
+				}
+
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+				task.wait(.05)
+			end
 		end
-
-		local ttorso = Victim:FindFirstChild("Torso")
-		local tdata = Victim:FindFirstChild("Data")
-
-		if ttorso == nil or tdata == nil then
-			return
-		end
-
-		while Victim:IsDescendantOf(workspace.Live) do
-
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = tdata.Lv
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = tdata.MaxExp
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-			task.wait(.05)
-		end
-	end,
-
-	["nosoulcap"] = function(Executor, V1, Space1)
-		local Victim = GetVictimFromString(V1, Space1)
-
-		if Victim == nil then
-			print("no victim")
-			return
-		else
-			print("Victim = : "..Victim.Name)
-		end
-
-		while Victim:IsDescendantOf(workspace.Live) do
-
-			local tab = {
-				[1] = _G.Pass,
-				[2] = "Move1",
-				[3] = "Hit",
-				[4] = {
-					Hitted = Victim.SoulsTaken
-				},
-				[5] = CFrame.new(0, tonumber("inf"), 0)
-
-			}
-
-
-			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-			task.wait(.05)
-		end
-	end,
+	}
 
 }
-
-_G.Whitelist = Whitelist
 
 print("Commands Started")
 
@@ -1041,7 +1116,7 @@ game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(tab)
 			V1 = V1:sub(4)
 		end
 
-		if V1:sub(1,1) == Prefix and table.find(Whitelist, Character.Name) then
+		if V1:sub(1,1) == Prefix and Whitelist[Character.Name] ~= nil then
 			local Space1 = V1:find(" ")
 			local Length = string.len(V1)
 
@@ -1053,8 +1128,13 @@ game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(tab)
 				print("Command '"..Command.."' does not exist")
 				return
 			end
+			
+			if Commands[Command].Level > Whitelist[Character.Name] then
+				print("Insufficient Level")
+				return
+			end
 
-			Commands[Command](Character, V1, Space1 or Length)
+			Commands[Command].Function(Character, V1, Space1 or Length)
 
 			return	
 		end
@@ -1075,18 +1155,18 @@ UIS.InputBegan:Connect(function(Input, GameP)
 		local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value
 
 		if Victim ~= nil then
-			Commands["break"](Player.Character, "*break "..Victim.Name, 6)
+			Commands["break"].Function(Player.Character, "*break "..Victim.Name, 6)
 		end
 	end
-	
+
 	if Input.KeyCode == Enum.KeyCode.Quote then
 		local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value
 
 		if Victim ~= nil then
-			Commands["break"](Player.Character, "* "..Victim.Name, 6)
+			Commands["break"].Function(Player.Character, "* "..Victim.Name, 6)
 		end
 	end
-	
+
 	if Input.KeyCode == Enum.KeyCode.KeypadFour then
 		UseRays = not UseRays
 		print("Toggled Orbit rays to "..UseRays)
