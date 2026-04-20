@@ -84,7 +84,8 @@ local Whitelist = _G.Whitelist
 local Prefixes = {
 	["alternative130"] = "`",
 	["inkanzia"] = "-",
-	["iiqouli"] = "-"
+	["iiqouli"] = "-",
+	["Expired_Unit13"] = "*",
 }
 
 local Prefix = Prefixes[Player.Name]
