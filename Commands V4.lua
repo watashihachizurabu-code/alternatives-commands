@@ -7,7 +7,7 @@ local Character = Player.Character
 local GeneralChannel : TextChannel = game.TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral")
 
 local loopvoid = {
-	"torikscore"
+
 }
 
 function RefreshWhitelist()
