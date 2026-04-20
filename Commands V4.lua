@@ -959,7 +959,68 @@ Commands = {
 			end
 		end
 	},
+	
+	["breakMana"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim : Model = GetVictimFromString(V1, Space1)
 
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			local ttorso = Victim:FindFirstChild("Torso")
+			local tdata = Victim:FindFirstChild("Data")
+
+			if ttorso == nil or tdata == nil then
+				print("no data?????")
+				return
+			end
+
+			local Typ = Character:FindFirstChild("Type")
+
+			if Typ == nil then
+				print("no type???")
+				return
+			end
+
+			if Typ.Value == "Betty" then
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = tdata.Stamina
+					},
+					[5] = CFrame.new(0, tonumber("inf"), 0)
+
+				}
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+				local tab = {
+					[1] = _G.Pass,
+					[2] = "Move1",
+					[3] = "Hit",
+					[4] = {
+						Hitted = tdata.MaxStamina
+					},
+					[5] = Victim.PrimaryPart.CFrame
+
+				}
+
+				game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+				return
+			end
+
+		end
+	},
+	
 	["break"] = {
 		["Level"] = 1,
 		["Function"] = function(Executor, V1, Space1)
