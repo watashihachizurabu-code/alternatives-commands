@@ -4,37 +4,13 @@ local Player = game.Players.LocalPlayer
 local Character = Player.Character
 --local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value or workspace.Live.alternative130 --workspace.Live.H3LLTARGET
 
-local Prefix = "`"
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/watashihachizurabu-code/alternatives-commands/refs/heads/main/whitelist.lua"))()
-
-local Whitelist = _G.Whitelist
-
-print(Whitelist)
-
-local Prefixes = {
-	["alternative130"] = "`",
-	["inkanzia"] = "-",
-	["iiqouli"] = "-"
-}
-
-local I = 0
-local Inc = 5
-local Off = 5
-
-local UseRays = true
-
-local LerpSpeed = .2
-local ForceMulti = 1
-
-local Orbits = {}
-
-local Riding = false
-local Sitting = false
-
-local rayparams = RaycastParams.new()
-rayparams.FilterType = Enum.RaycastFilterType.Include
-rayparams.FilterDescendantsInstances = {workspace.Map}
+function RefreshWhitelist()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/watashihachizurabu-code/alternatives-commands/refs/heads/main/whitelist.lua"))()
+	
+	for i,v in pairs(_G.Whitelist) do
+		print(i, v)
+	end
+end
 
 function SplitCommand(Command : string)
 	return string.split(Command, " ")
@@ -99,6 +75,36 @@ function RecreateBP() : BodyPosition
 
 end
 
+RefreshWhitelist()
+
+local Whitelist = _G.Whitelist
+
+local Prefixes = {
+	["alternative130"] = "`",
+	["inkanzia"] = "-",
+	["iiqouli"] = "-"
+}
+
+local Prefix = Prefixes[Player.Name]
+
+local I = 0
+local Inc = 5
+local Off = 5
+
+local UseRays = true
+
+local LerpSpeed = .2
+local ForceMulti = 1
+
+local Orbits = {}
+
+local Riding = false
+local Sitting = false
+
+local rayparams = RaycastParams.new()
+rayparams.FilterType = Enum.RaycastFilterType.Include
+rayparams.FilterDescendantsInstances = {workspace.Map}
+
 local Anim = Instance.new("Animation")
 Anim.AnimationId = "rbxassetid://3786809782" --"rbxassetid://3786720640" --"rbxassetid://3816111224"
 
@@ -111,6 +117,12 @@ local Track2 = nil
 local BP = nil
 
 local Commands = {
+	
+	["refreshwhitelist"] = {
+		["Level"] = 5,
+		["Function"] = RefreshWhitelist()
+	},
+	
 	["crash"] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
@@ -1116,7 +1128,7 @@ game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(tab)
 			V1 = V1:sub(4)
 		end
 
-		if V1:sub(1,1) == Prefix and Whitelist[Character.Name] ~= nil then
+		if (V1:sub(1,1) == Prefix or string.match(string.lower(V1), "refreshwhitelist")) and Whitelist[Character.Name] ~= nil then
 			local Space1 = V1:find(" ")
 			local Length = string.len(V1)
 
@@ -1150,6 +1162,8 @@ UIS.InputBegan:Connect(function(Input, GameP)
 	if GameP then
 		return
 	end
+	
+	Character = Player.Character
 
 	if Input.KeyCode == Enum.KeyCode.Z then
 		local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value
