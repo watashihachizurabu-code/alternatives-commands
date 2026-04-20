@@ -137,7 +137,7 @@ local Commands = {
 				script:Destroy()
 			end
 		end,
-	}
+	},
 	
 	["crash"] = {
 		["Level"] = 5,
