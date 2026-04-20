@@ -1,5 +1,6 @@
 _G.Whitelist = {
   ["alternative130"] = 6,
+  ["Allenlovescars"] = 6, --MY KINGGGGGGG :weary:
   ["iiqouli"] = 5,
   ["magicappelkz"] = 5,
   ["perimares2"] = 5,
