@@ -1113,7 +1113,7 @@ Commands = {
 			end
 
 			if Typ.Value == "DeltaSans" then
-				for i = 1,Amount do
+				for i = 1,1200 do
 
 					if Victim.Data.Stamina.Value <= 0 then
 						break
@@ -1314,7 +1314,7 @@ ClickCon = UIS.InputBegan:Connect(function(Input, GameP)
 		local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value
 
 		if Victim ~= nil then
-			Commands["break"].Function(Player.Character, "* "..Victim.Name, 6)
+			Commands["void"].Function(Player.Character, "*void "..Victim.Name, 6)
 		end
 	end
 
