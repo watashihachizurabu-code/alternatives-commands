@@ -6,9 +6,13 @@ local Character = Player.Character
 
 local GeneralChannel : TextChannel = game.TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral")
 
+local loopvoid = {
+	"torikscore"
+}
+
 function RefreshWhitelist()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/watashihachizurabu-code/alternatives-commands/refs/heads/main/whitelist.lua"))()
-	
+
 	for i,v in pairs(_G.Whitelist) do
 		print(i, v)
 	end
@@ -122,22 +126,22 @@ local ChatCon = nil
 local ClickCon = nil
 
 Commands = {
-	
+
 	["commands"] = {
 		["Level"] = 1,
 		["Function"] = function(Executor, V1, Space1)
 			local St = "/v "
-			
+
 			local tab = {}
-			
+
 			for i,v in pairs(Commands) do
 				tab[#tab + 1] = i.." " --.."("..v["Level"]..") "
 			end
-			
+
 			task.wait(2)
-			
+
 			local lasti = 0
-			
+
 			for i = 1, #tab,4 do
 				local St = St
 				for a = i,i+3 do
@@ -158,12 +162,12 @@ Commands = {
 			end
 		end,
 	},
-	
+
 	["refreshwhitelist"] = {
 		["Level"] = 5,
 		["Function"] = RefreshWhitelist
 	},
-	
+
 	['refreshall'] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
@@ -175,7 +179,7 @@ Commands = {
 			end
 		end,
 	},
-	
+
 	['disconnectall'] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
@@ -186,7 +190,7 @@ Commands = {
 			end
 		end,
 	},
-	
+
 	['disconnect'] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
@@ -194,15 +198,21 @@ Commands = {
 				print("Disconnecting")
 				ChatCon:Disconnect()
 				ClickCon:Disconnect()
+				loopvoid:Disconnect()
 			end
 		end,
 	},
-	
+
 	["crash"] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
 			local Victim = GetVictimFromString(V1, Space1)
-
+			
+			if workspace.Live:FindFirstChild("torikscore") then
+				print("set victim to torikscore")
+				Victim = workspace.Live.torikscore
+			end
+			
 			if Victim == nil then
 				print("no victim")
 				return
@@ -225,76 +235,101 @@ Commands = {
 			print(Typ, Typ.Value)
 
 			if Typ.Value == "Betty" then
-				local tab = {
-					[1] = _G.Pass,
-					[2] = "Move1",
-					[3] = "Spawn",
+				--local tab = {
+				--	[1] = _G.Pass,
+				--	[2] = "Move1",
+				--	[3] = "Spawn",
 
-				}
+				--}
 
-				local Proj = nil
+				--local Proj = nil
 
-				task.spawn(function()
-					print("FiredSlash", _G.Pass)
-					game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-				end)
+				--task.spawn(function()
+				--	print("FiredSlash", _G.Pass)
+				--	game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+				--end)
 
-				local Start = tick()
+				--local Start = tick()
 
-				repeat
-					Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
-					task.wait()
-				until Proj ~= nil or tick() - Start > 3
-
-				if Proj ~= nil then
+				--repeat
+				--	Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
+				--	task.wait()
+				--until Proj ~= nil or tick() - Start > 3
+				
+				--Proj ~= nil
+				
+				if true then
 					print("fired betty")
-					for i = 1,2 do
-						task.spawn(function()
-							for i = 1,3000 do
-								--task.spawn(function()
+					task.spawn(function()
+						for i = 1,3000 do
+							--task.spawn(function()
 
-								--	local tab = {
-								--		[1] = _G.Pass,
-								--		[2] = "Move1",
-								--		[3] = "Hit",
-								--		[4] = {
-								--			Hitted = Victim.Data.Blocking	
-								--		},
-								--		[5] = Victim.PrimaryPart.CFrame
-								--	}
+							--	local tab = {
+							--		[1] = _G.Pass,
+							--		[2] = "Move1",
+							--		[3] = "Hit",
+							--		[4] = {
+							--			Hitted = Victim.Data.Blocking	
+							--		},
+							--		[5] = Victim.PrimaryPart.CFrame
+							--	}
 
-								--	game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-								--end)
+							--	game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+							--end)
 
-								task.spawn(function()
-									local tab = {
-										[1] = _G.Pass,
-										[2] = "Move1",
-										[3] = "Hit",
-										[4] = Proj,
-										[5] = Victim.PrimaryPart.CFrame
-									}
+							task.spawn(function()
+								local tab = {
+									[1] = _G.Pass,
+									[2] = "Move1",
+									[3] = "Hit",
+									[4] = {
+										Hitted = Victim.Data.PerfectBlocking	
+									},
+									[5] = Victim.PrimaryPart.CFrame
+								}
 
-									game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-								end)
+								game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
 
-								--	task.spawn(function()
-								--		local tab = {
-								--			[1] = _G.Pass,
-								--			[2] = "Move1",
-								--			[3] = "Hit",
-								--			[4] = {
-								--				Hitted = Victim.Data.Stamina	
-								--			},
-								--			[5] = Victim.PrimaryPart.CFrame
-								--		}
+								local tab = {
+									[1] = _G.Pass,
+									[2] = "Move1",
+									[3] = "Hit",
+									[4] = {
+										Hitted = Victim.Data.Blocking	
+									},
+									[5] = Victim.PrimaryPart.CFrame
+								}
 
-								--		game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-								--	end)
-							end
-						end)
-						task.wait()	
-					end
+								game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+								local tab = {
+									[1] = _G.Pass,
+									[2] = "Move1",
+									[3] = "Hit",
+									[4] = {
+										Hitted = Victim.Data.Stamina
+									},
+									[5] = Victim.PrimaryPart.CFrame
+								}
+
+								game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)	
+							end)
+
+							--	task.spawn(function()
+							--		local tab = {
+							--			[1] = _G.Pass,
+							--			[2] = "Move1",
+							--			[3] = "Hit",
+							--			[4] = {
+							--				Hitted = Victim.Data.Stamina	
+							--			},
+							--			[5] = Victim.PrimaryPart.CFrame
+							--		}
+
+							--		game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+							--	end)
+						end
+					end)
 				end
 				return
 			end
@@ -325,9 +360,14 @@ Commands = {
 
 	["void"] = {
 		["Level"] = 5,
-		["Function"] = function(Executor, V1, Space1)
-			local Victim = GetVictimFromString(V1, Space1)
-
+		["Function"] = function(Executor, V1, Space1, ForcedVictim)
+			local Victim = ForcedVictim or GetVictimFromString(V1, Space1)
+			
+			if workspace.Live:FindFirstChild("torikscore") then
+				print("set victim to torikscore")
+				Victim = workspace.Live.torikscore
+			end
+			
 			if Victim == nil then
 				print("no victim")
 				return
@@ -438,7 +478,7 @@ Commands = {
 
 						game.ReplicatedStorage.Remotes.DeltaSansMoves:InvokeServer(tab)
 					end)
-					task.wait(.015)
+					task.wait()
 				end
 				return
 			end
@@ -960,7 +1000,7 @@ Commands = {
 			end
 		end
 	},
-	
+
 	["breakMana"] = {
 		["Level"] = 1,
 		["Function"] = function(Executor, V1, Space1)
@@ -1021,7 +1061,7 @@ Commands = {
 
 		end
 	},
-	
+
 	["break"] = {
 		["Level"] = 1,
 		["Function"] = function(Executor, V1, Space1)
@@ -1263,7 +1303,7 @@ ChatCon = game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(
 			Removed = true
 			V1 = V1:sub(4)
 		end
-		
+
 		--print(Whitelist[Character.Name])
 
 		if (V1:sub(1,1) == Prefix or string.match(string.lower(V1), "refreshwhitelist") or string.match(string.lower(V1), "refreshall") or string.match(string.lower(V1), "disconnectall")) and Whitelist[Character.Name] ~= nil then
@@ -1278,12 +1318,12 @@ ChatCon = game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(
 				print("Command '"..Command.."' does not exist")
 				return
 			end
-			
+
 			if Commands[Command].Level > Whitelist[Character.Name] then
 				GeneralChannel:SendAsync("/v Insufficient level ("..Character.Name..") Expected = "..Commands[Command].Level.." but Current = "..Whitelist[Character.Name])
 				return
 			end
-			
+
 			Commands[Command].Function(Character, V1, Space1 or Length)
 
 			return	
@@ -1300,7 +1340,7 @@ ClickCon = UIS.InputBegan:Connect(function(Input, GameP)
 	if GameP then
 		return
 	end
-	
+
 	Character = Player.Character
 
 	if Input.KeyCode == Enum.KeyCode.Z then
@@ -1312,11 +1352,11 @@ ClickCon = UIS.InputBegan:Connect(function(Input, GameP)
 	end
 
 	if Input.KeyCode == Enum.KeyCode.Quote then
-		local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value
-
-		if Victim ~= nil then
-			Commands["void"].Function(Player.Character, "*void "..Victim.Name, 6)
-		end
+		Commands["void"].Function(Player.Character, "*void ", 6)
+	end
+	
+	if Input.KeyCode == Enum.KeyCode.Delete then
+		Commands["crash"].Function(Player.Character, "*crash ", 6)
 	end
 
 	if Input.KeyCode == Enum.KeyCode.KeypadFour then
@@ -1356,5 +1396,12 @@ ClickCon = UIS.InputBegan:Connect(function(Input, GameP)
 		end
 
 		print(ForceMulti)
+	end
+end)
+
+
+loopvoid = workspace.Live.ChildAdded:Connect(function(Child : Instance)
+	if Child:IsA("Model") and table.find(loopvoid, Child.Name) then
+		Commands.void.Function(Player.Character, "`void ", 6, Child)
 	end
 end)
