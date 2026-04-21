@@ -234,91 +234,51 @@ Commands = {
 			print(Typ, Typ.Value)
 
 			if Typ.Value == "Betty" then
-				local tab = {
-					[1] = _G.Pass,
-					[2] = "Move1",
-					[3] = "Spawn",
+				for i = 1,4 do
+					task.spawn(function()
+						for i = 1,3000 do
+							task.spawn(function()
+								local tab = {
+									[1] = _G.Pass,
+									[2] = "Move1",
+									[3] = "Hit",
+									[4] = {
+										Hitted = Victim.Data.PerfectBlocking	
+									},
+									[5] = CFrame.new(0,1000,0)
+								}
 
-				}
+								game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
 
-				local Proj = nil
+								local tab = {
+									[1] = _G.Pass,
+									[2] = "Move1",
+									[3] = "Hit",
+									[4] = {
+										Hitted = Victim.Data.Blocking
+									},
+									[5] = CFrame.new(0, tonumber("inf"), 0)
 
-				task.spawn(function()
-					print("FiredSlash", _G.Pass)
-					game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-				end)
+								}
 
-				local Start = tick()
+								game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)							
 
-				repeat
-					Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
-					task.wait()
-				until Proj ~= nil or tick() - Start > 3
+								local tab = {
+									[1] = _G.Pass,
+									[2] = "Move1",
+									[3] = "Hit",
+									[4] = {
+										Hitted = Victim.Data.PerfectBlocking
+									},
+									[5] = Victim.PrimaryPart.CFrame
+								}
 
-				if Proj ~= nil then
-					print("fired betty")
-					for i = 1,2 do
-						task.spawn(function()
-							for i = 1,3000 do
-								--task.spawn(function()
-
-								--	local tab = {
-								--		[1] = _G.Pass,
-								--		[2] = "Move1",
-								--		[3] = "Hit",
-								--		[4] = {
-								--			Hitted = Victim.Data.Blocking	
-								--		},
-								--		[5] = Victim.PrimaryPart.CFrame
-								--	}
-
-								--	game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-								--end)
-
-								task.spawn(function()
-									local tab = {
-										[1] = _G.Pass,
-										[2] = "Move1",
-										[3] = "Hit",
-										[4] = {
-											Hitted = Victim.Data.PerfectBlocking	
-										},
-										[5] = Victim.PrimaryPart.CFrame
-									}
-
-									game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-									
-									local tab = {
-										[1] = _G.Pass,
-										[2] = "Move1",
-										[3] = "Hit",
-										[4] = {
-											Hitted = Victim.Data.Stamina
-										},
-										[5] = CFrame.new(0,1000,0)
-									}
-
-									game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-								end)
-
-								--	task.spawn(function()
-								--		local tab = {
-								--			[1] = _G.Pass,
-								--			[2] = "Move1",
-								--			[3] = "Hit",
-								--			[4] = {
-								--				Hitted = Victim.Data.Stamina	
-								--			},
-								--			[5] = Victim.PrimaryPart.CFrame
-								--		}
-
-								--		game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-								--	end)
-								task.wait()
-							end
-						end)
-						task.wait()	
-					end
+								game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+							end)
+							task.wait()
+						end
+					end)
+					task.wait()	
 				end
 				return
 			end
