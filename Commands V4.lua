@@ -8,7 +8,7 @@ local GeneralChannel : TextChannel = game.TextChatService:WaitForChild("TextChan
 
 function RefreshWhitelist()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/watashihachizurabu-code/alternatives-commands/refs/heads/main/whitelist.lua"))()
-	
+
 	for i,v in pairs(_G.Whitelist) do
 		print(i, v)
 	end
@@ -123,13 +123,13 @@ local ClickCon = nil
 local talkdeb = true
 
 Commands = {
-	
+
 	["commands"] = {
 		["Level"] = 1,
 		["Function"] = function(Executor, V1, Space1)
 			if talkdeb then
 				talkdeb = false
-				
+
 				local St = "/v "
 
 				local tab = {}
@@ -162,17 +162,17 @@ Commands = {
 						end
 					end
 				end)
-				
+
 				talkdeb = true
 			end
 		end,
 	},
-	
+
 	["refreshwhitelist"] = {
 		["Level"] = 5,
 		["Function"] = RefreshWhitelist
 	},
-	
+
 	['refreshall'] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
@@ -184,7 +184,7 @@ Commands = {
 			end
 		end,
 	},
-	
+
 	['disconnectall'] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
@@ -195,7 +195,7 @@ Commands = {
 			end
 		end,
 	},
-	
+
 	['disconnect'] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
@@ -206,7 +206,7 @@ Commands = {
 			end
 		end,
 	},
-	
+
 	["crash"] = {
 		["Level"] = 5,
 		["Function"] = function(Executor, V1, Space1)
@@ -944,7 +944,7 @@ Commands = {
 			end
 		end
 	},
-	
+
 	["breakMana"] = {
 		["Level"] = 3,
 		["Function"] = function(Executor, V1, Space1)
@@ -1005,7 +1005,7 @@ Commands = {
 
 		end
 	},
-	
+
 	["break"] = {
 		["Level"] = 1,
 		["Function"] = function(Executor, V1, Space1)
@@ -1096,7 +1096,36 @@ Commands = {
 
 				return
 			end
+			
+			if Typ.Value == "XSans" then
+				for i = 1,1200 do
 
+					if Victim.Data.Stamina.Value <= 0 then
+						break
+					end
+
+					task.spawn(function()
+
+						if Victim.Data.Stamina.Value <= 0 then
+							return
+						end
+
+						local tab = {
+							[1] = _G.Pass,
+							[2] = "SummonBones",
+							[3] = "AirDodge",
+							[4] = Victim.Torso
+						}
+
+
+
+						game.ReplicatedStorage.Remotes.XSansMoves:InvokeServer(tab)
+					end)
+					task.wait(.07)
+				end
+				return
+			end
+			
 			if Typ.Value == "DeltaSans" then
 				for i = 1,1200 do
 
@@ -1247,7 +1276,7 @@ ChatCon = game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(
 			Removed = true
 			V1 = V1:sub(4)
 		end
-		
+
 		print(Whitelist[Character.Name])
 
 		if (V1:sub(1,1) == Prefix or string.match(string.lower(V1), "refreshwhitelist") or string.match(string.lower(V1), "refreshall") or string.match(string.lower(V1), "disconnectall")) and Whitelist[Character.Name] ~= nil then
@@ -1262,12 +1291,12 @@ ChatCon = game.ReplicatedStorage.Remotes.Effects.OnClientEvent:Connect(function(
 				print("Command '"..Command.."' does not exist")
 				return
 			end
-			
+
 			if Commands[Command].Level > Whitelist[Character.Name] then
 				GeneralChannel:SendAsync("/v Insufficient level ("..Character.Name..") Expected = "..Commands[Command].Level.." but Current = "..Whitelist[Character.Name])
 				return
 			end
-			
+
 			Commands[Command].Function(Character, V1, Space1 or Length)
 
 			return	
@@ -1284,7 +1313,7 @@ ClickCon = UIS.InputBegan:Connect(function(Input, GameP)
 	if GameP then
 		return
 	end
-	
+
 	Character = Player.Character
 
 	if Input.KeyCode == Enum.KeyCode.Z then
@@ -1302,7 +1331,7 @@ ClickCon = UIS.InputBegan:Connect(function(Input, GameP)
 			Commands["void"].Function(Player.Character, "*void "..Victim.Name, 6)
 		end
 	end
-	
+
 	if Input.KeyCode == Enum.KeyCode.Delete then
 		local Victim = Player.Backpack.Main.LockOnScript.LockOn.Value
 
