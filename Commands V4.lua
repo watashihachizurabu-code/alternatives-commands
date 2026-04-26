@@ -258,7 +258,15 @@ Commands = {
 				for i = 1,4 do
 					task.spawn(function()
 						for i = 1,3000 do
+							if Victim == nil or Victim:FindFirstChild("Torso") == nil or Victim:IsDescendantOf(workspace) == false then
+								return
+							end
+							
 							task.spawn(function()
+								if Victim == nil or Victim:FindFirstChild("Torso") == nil or Victim:IsDescendantOf(workspace) == false then
+									return
+								end
+								
 								local tab = {
 									[1] = _G.Pass,
 									[2] = "Move1",
@@ -308,7 +316,16 @@ Commands = {
 				print("Fired delta")
 
 				for i = 1,1000 do
+					if Victim == nil or Victim:FindFirstChild("Torso") == nil or Victim:IsDescendantOf(workspace) == false then
+						return
+					end
+					
 					task.spawn(function()
+						
+						if Victim == nil or Victim:FindFirstChild("Torso") == nil or Victim:IsDescendantOf(workspace) == false then
+							return
+						end
+						
 						local tab = {
 							[1] = _G.Pass,
 							[2] = "Bones1",
@@ -356,73 +373,50 @@ Commands = {
 			end
 
 			if Typ.Value == "Betty" then
-				local tab = {
-					[1] = _G.Pass,
-					[2] = "Move1",
-					[3] = "Spawn",
+				for i = 1,1000 do
+					task.spawn(function()
 
-				}
+						if Victim:IsDescendantOf(workspace) == false then
+							return
+						end
 
-				local Proj = nil
+						local tab = {
+							[1] = _G.Pass,
+							[2] = "Move1",
+							[3] = "Hit",
+							[4] = {
+								Hitted = Victim.Data.Stamina	
+							},
 
-				task.spawn(function()
-					print("FiredSlash", _G.Pass)
-					game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-				end)
+						}
 
-				local Start = tick()
+						--print("FiredDamage", _G.Pass)
+						game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
 
-				repeat
-					Proj = Character.Attacks:FindFirstChild("BettyHandProjectile")
-					task.wait()
-				until Proj ~= nil or tick() - Start > 3
+						local tab = {
+							[1] = _G.Pass,
+							[2] = "Move1",
+							[3] = "Hit",
+							[4] = {
+								Hitted = Victim.Data.Blocking
+							},
+							[5] = Victim.PrimaryPart.CFrame
+						}
 
-				if Proj ~= nil then
-					for i = 1,1000 do
-						task.spawn(function()
+						--print("FiredDamage", _G.Pass)
+						game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
 
-							if Victim:IsDescendantOf(workspace) == false then
-								return
-							end
+						--local tab = {
+						--	[1] = _G.Pass,
+						--	[2] = "Move1",
+						--	[3] = "Hit",
+						--	[4] = Proj,
+						--	[5] = Victim.PrimaryPart.CFrame
+						--}
 
-							local tab = {
-								[1] = _G.Pass,
-								[2] = "Move1",
-								[3] = "Hit",
-								[4] = {
-									Hitted = Victim.Data.Stamina	
-								},
-
-							}
-
-							--print("FiredDamage", _G.Pass)
-							game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-							local tab = {
-								[1] = _G.Pass,
-								[2] = "Move1",
-								[3] = "Hit",
-								[4] = {
-									Hitted = Victim.Data.Blocking
-								},
-								[5] = Victim.PrimaryPart.CFrame
-							}
-
-							--print("FiredDamage", _G.Pass)
-							game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-
-							--local tab = {
-							--	[1] = _G.Pass,
-							--	[2] = "Move1",
-							--	[3] = "Hit",
-							--	[4] = Proj,
-							--	[5] = Victim.PrimaryPart.CFrame
-							--}
-
-							----print("FiredDamage", _G.Pass)
-							--game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
-						end)
-					end
+						----print("FiredDamage", _G.Pass)
+						--game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+					end)
 				end
 				return
 			end
