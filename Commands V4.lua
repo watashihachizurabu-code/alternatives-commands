@@ -105,7 +105,8 @@ local Prefixes = {
 	["inkanzia"] = "-",
 	["iiqouli"] = "-",
 	["Perimares2"] = "*",
-	["ChiefInquisitor"] = "*"
+	["ChiefInquisitor"] = "*",
+	["Allenlovescars"] = "#"
 }
 
 local Prefix = Prefixes[Player.Name] or Prefixes[Player.UserId]
@@ -187,6 +188,26 @@ Commands = {
 				talkdeb = true
 			end
 		end,
+	},
+
+	["setprefix"] = {
+		["Level"] = 1,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim = GetVictimFromString(V1, Space1)
+
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			local VictimPlayer = game.Players:GetPlayerFromCharacter(Victim)
+
+			if Prefixes[Victim.Name] ~= nil or (if VictimPlayer ~= nil then Prefixes[VictimPlayer.UserId] ~= nil else false) then
+				Prefix = Prefixes[Victim.Name] or Prefixes[VictimPlayer.UserId]
+			end
+		end
 	},
 
 	["refreshwhitelist"] = {
