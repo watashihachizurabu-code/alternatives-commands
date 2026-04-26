@@ -86,7 +86,7 @@ local Prefixes = {
 	["inkanzia"] = "-",
 	["iiqouli"] = "-",
 	["Perimares2"] = "*",
-	["Expired_Unit13"] = "*"
+	["ChiefInquisitor"] = "*"
 }
 
 local Prefix = Prefixes[Player.Name]
