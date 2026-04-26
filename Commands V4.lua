@@ -1,17 +1,17 @@
 local pass
 G = G or {}
 G.pas = function()
-    if pass then return pass end
-    for _, obj in next, getgc(true) do
-        if typeof(obj) == "table" and rawget(obj, "RootPartFollow") ~= nil then
-            local item = rawget(obj, "Pass")
-            if typeof(item) == "Instance" then
-                pass = item
-                break
-            end
-        end
-    end
-    return pass
+	if pass then return pass end
+	for _, obj in next, getgc(true) do
+		if typeof(obj) == "table" and rawget(obj, "RootPartFollow") ~= nil then
+			local item = rawget(obj, "Pass")
+			if typeof(item) == "Instance" then
+				pass = item
+				break
+			end
+		end
+	end
+	return pass
 end
 _G.Pass = G.pas()
 
@@ -649,7 +649,7 @@ Commands = {
 					--local Victim : Model = Player.Backpack.Main.LockOnScript.LockOn.Value
 					local Character : Model = Executor
 
-					if Character == nil or Victim == nil or Riding ~= true then
+					if Character == nil or Victim == nil or Sitting ~= true then
 						Orbits[Executor.Name] = false
 						break
 					end
@@ -1117,7 +1117,7 @@ Commands = {
 
 				return
 			end
-			
+
 			if Typ.Value == "XSans" then
 				for i = 1,1200 do
 
@@ -1146,7 +1146,7 @@ Commands = {
 				end
 				return
 			end
-			
+
 			if Typ.Value == "DeltaSans" then
 				for i = 1,1200 do
 
