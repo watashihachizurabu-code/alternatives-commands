@@ -1,3 +1,22 @@
+local pass
+G = G or {}
+G.pas = function()
+    if pass then return pass end
+    for _, obj in next, getgc(true) do
+        if typeof(obj) == "table" and rawget(obj, "RootPartFollow") ~= nil then
+            local item = rawget(obj, "Pass")
+            if typeof(item) == "Instance" then
+                pass = item
+                break
+            end
+        end
+    end
+    return pass
+end
+_G.Pass = G.pas()
+
+print(_G.Pass)
+
 local Pass = _G.Pass
 
 local Player = game.Players.LocalPlayer
@@ -89,7 +108,7 @@ local Prefixes = {
 	["ChiefInquisitor"] = "*"
 }
 
-local Prefix = Prefixes[Player.Name]
+local Prefix = Prefixes[Player.Name] or Prefixes[Player.UserId]
 
 local I = 0
 local Inc = 5
