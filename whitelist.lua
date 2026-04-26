@@ -5,5 +5,6 @@ _G.Whitelist = {
   ["perimares2"] = 5,
   ["ChiefInquisitor"] = 5,
   ["JJEREMIAHJOHNSONN"] = 1,
-  ["inkanzia"] = 5
+  ["inkanzia"] = 5,
+  ["iiqouli"] = 5
 }
