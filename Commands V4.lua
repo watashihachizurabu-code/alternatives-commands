@@ -458,7 +458,7 @@ Commands = {
 
 						game.ReplicatedStorage.Remotes.DeltaSansMoves:InvokeServer(tab)
 					end)
-					task.wait(.015)
+					task.wait(.005)
 				end
 				return
 			end
