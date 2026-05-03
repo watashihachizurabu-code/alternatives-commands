@@ -104,7 +104,7 @@ local Prefixes = {
 	["alternative130"] = "`",
 	["inkanzia"] = "-",
 	["iiqouli"] = "-",
-	["perimares2"] = "*",
+	["perimares2"] = "$",
 	["ChiefInquisitor"] = "*",
 	["Allenlovescars"] = "#"
 }
