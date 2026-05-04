@@ -282,12 +282,12 @@ Commands = {
 							if Victim == nil or Victim:FindFirstChild("Torso") == nil or Victim:IsDescendantOf(workspace) == false then
 								return
 							end
-							
+
 							task.spawn(function()
 								if Victim == nil or Victim:FindFirstChild("Torso") == nil or Victim:IsDescendantOf(workspace) == false then
 									return
 								end
-								
+
 								local tab = {
 									[1] = _G.Pass,
 									[2] = "Move1",
@@ -340,13 +340,13 @@ Commands = {
 					if Victim == nil or Victim:FindFirstChild("Torso") == nil or Victim:IsDescendantOf(workspace) == false then
 						return
 					end
-					
+
 					task.spawn(function()
-						
+
 						if Victim == nil or Victim:FindFirstChild("Torso") == nil or Victim:IsDescendantOf(workspace) == false then
 							return
 						end
-						
+
 						local tab = {
 							[1] = _G.Pass,
 							[2] = "Bones1",
@@ -813,7 +813,45 @@ Commands = {
 		end
 	},
 
+	["hatemode"] = {
+		["Level"] = 2,
+		["Function"] = function(Executor, V1, Space1)
+			local Victim : Model = GetVictimFromString(V1, Space1)
 
+			if Victim == nil then
+				print("no victim")
+				return
+			else
+				print("Victim = : "..Victim.Name)
+			end
+
+			local tab = {
+				[1] = _G.Pass,
+				[2] = "Move1",
+				[3] = "Hit",
+				[4] = {
+					Hitted = Victim.HateMode
+				},
+				[5] = Victim.PrimaryPart.CFrame
+
+			}
+
+			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+
+			local tab = {
+				[1] = _G.Pass,
+				[2] = "Move1",
+				[3] = "Hit",
+				[4] = {
+					Hitted = Victim.FullHateMode
+				},
+				[5] = Victim.PrimaryPart.CFrame
+
+			}
+
+			game.ReplicatedStorage.Remotes.BettyMoves:InvokeServer(tab)
+		end
+	},
 
 	["togglepb"] = {
 		["Level"] = 2,
